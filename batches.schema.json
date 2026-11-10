@@ -1,0 +1,125 @@
+{
+  "collection": "batches",
+  "specTable": "BATCHES TABLE",
+  "primaryKeyField": "batch_id",
+  "foreignKeys": {
+    "created_by": "users.user_id"
+  },
+  "defaultsAppliedByApp": {
+    "machine_label": null,
+    "batch_status": "Pending",
+    "started_at": null,
+    "completed_at": null,
+    "created_at": "now"
+  },
+  "specNotes": [
+    "Spec header says 'batches_id' but the field table says batch_id; batch_id used.",
+    "process_type is free text in the spec (Washing, Drying are examples).",
+    "Batch-to-order links live in the separate Batch_Orders table, not in this collection."
+  ],
+  "indexes": [
+    {
+      "key": {
+        "batch_id": 1
+      },
+      "unique": true
+    },
+    {
+      "key": {
+        "batch_number": 1
+      },
+      "unique": true
+    },
+    {
+      "key": {
+        "created_by": 1
+      },
+      "unique": false
+    },
+    {
+      "key": {
+        "batch_status": 1
+      },
+      "unique": false
+    }
+  ],
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "title": "Batch",
+      "required": [
+        "batch_id",
+        "batch_number",
+        "created_by",
+        "process_type",
+        "batch_status",
+        "created_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "bsonType": "objectId"
+        },
+        "batch_id": {
+          "bsonType": "int",
+          "minimum": 1,
+          "description": "PK, AUTO_INCREMENT. Unique ID for each laundry batch"
+        },
+        "batch_number": {
+          "bsonType": "string",
+          "minLength": 1,
+          "maxLength": 30,
+          "description": "UNIQUE. Batch tracking number displayed to staff"
+        },
+        "created_by": {
+          "bsonType": "int",
+          "minimum": 1,
+          "description": "FK -> users.user_id"
+        },
+        "process_type": {
+          "bsonType": "string",
+          "minLength": 1,
+          "maxLength": 30,
+          "description": "Processing stage, such as Washing or Drying"
+        },
+        "machine_label": {
+          "bsonType": [
+            "string",
+            "null"
+          ],
+          "maxLength": 30,
+          "description": "Identifier of the machine assigned to the batch"
+        },
+        "batch_status": {
+          "bsonType": "string",
+          "enum": [
+            "Pending",
+            "In Progress",
+            "Completed",
+            "Cancelled"
+          ],
+          "maxLength": 30,
+          "description": "DEFAULT Pending"
+        },
+        "started_at": {
+          "bsonType": [
+            "date",
+            "null"
+          ],
+          "description": "Date and time processing started"
+        },
+        "completed_at": {
+          "bsonType": [
+            "date",
+            "null"
+          ],
+          "description": "Date and time processing finished"
+        },
+        "created_at": {
+          "bsonType": "date",
+          "description": "Date and time the batch was created, DEFAULT CURRENT_TIMESTAMP"
+        }
+      }
+    }
+  }
+}

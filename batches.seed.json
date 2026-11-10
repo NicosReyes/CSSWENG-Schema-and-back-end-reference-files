@@ -1,0 +1,35 @@
+[
+  {
+    "batch_id": 1,
+    "batch_number": "BATCH-20261103-001",
+    "created_by": 2,
+    "process_type": "Washing",
+    "machine_label": "Washer 1",
+    "batch_status": "Completed",
+    "started_at": {"$date": "2026-11-03T09:00:00.000Z"},
+    "completed_at": {"$date": "2026-11-03T09:45:00.000Z"},
+    "created_at": {"$date": "2026-11-03T08:55:00.000Z"}
+  },
+  {
+    "batch_id": 2,
+    "batch_number": "BATCH-20261103-002",
+    "created_by": 2,
+    "process_type": "Drying",
+    "machine_label": "Dryer 1",
+    "batch_status": "In Progress",
+    "started_at": {"$date": "2026-11-03T10:00:00.000Z"},
+    "completed_at": null,
+    "created_at": {"$date": "2026-11-03T09:50:00.000Z"}
+  },
+  {
+    "batch_id": 3,
+    "batch_number": "BATCH-20261104-001",
+    "created_by": 1,
+    "process_type": "Washing",
+    "machine_label": "Washer 2",
+    "batch_status": "Pending",
+    "started_at": null,
+    "completed_at": null,
+    "created_at": {"$date": "2026-11-04T08:30:00.000Z"}
+  }
+]

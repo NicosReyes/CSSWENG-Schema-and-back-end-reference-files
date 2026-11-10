@@ -1,0 +1,35 @@
+[
+  {
+    "expense_id": 1,
+    "recorded_by": 1,
+    "expense_date": {"$date": "2026-11-02T00:00:00.000Z"},
+    "category": "Utilities",
+    "description": "Meralco bill - Oct 2026",
+    "amount": {"$numberDecimal": "6850.00"},
+    "payment_method": "GCash",
+    "reference_number": "GC-20261102-884213",
+    "created_at": {"$date": "2026-11-02T10:05:00.000Z"}
+  },
+  {
+    "expense_id": 2,
+    "recorded_by": 2,
+    "expense_date": {"$date": "2026-11-03T00:00:00.000Z"},
+    "category": "Supplies",
+    "description": "Detergent restock",
+    "amount": {"$numberDecimal": "3200.00"},
+    "payment_method": "Cash",
+    "reference_number": "OR-0004571",
+    "created_at": {"$date": "2026-11-03T09:40:00.000Z"}
+  },
+  {
+    "expense_id": 3,
+    "recorded_by": 1,
+    "expense_date": {"$date": "2026-11-04T00:00:00.000Z"},
+    "category": "Maintenance",
+    "description": "Washer belt replacement",
+    "amount": {"$numberDecimal": "1450.00"},
+    "payment_method": "Cash",
+    "reference_number": null,
+    "created_at": {"$date": "2026-11-04T14:20:00.000Z"}
+  }
+]

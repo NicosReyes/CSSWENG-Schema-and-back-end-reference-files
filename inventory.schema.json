@@ -1,0 +1,114 @@
+{
+  "collection": "inventory",
+  "specTable": "INVENTORY TABLE",
+  "primaryKeyField": "inventory_id",
+  "foreignKeys": {
+    "created_by": "users.user_id"
+  },
+  "defaultsAppliedByApp": {
+    "quantity_on_hand": "0.00",
+    "reorder_level": "0.00",
+    "item_status": "Active",
+    "created_at": "now"
+  },
+  "specNotes": [
+    "Spec field name 'quantity _on_hand' (stray space) read as quantity_on_hand.",
+    "Decimal defaults are Decimal128 0.00 (written as a string here).",
+    "low stock = quantity_on_hand <= reorder_level (design convention, not defined in the spec)."
+  ],
+  "indexes": [
+    {
+      "key": {
+        "inventory_id": 1
+      },
+      "unique": true
+    },
+    {
+      "key": {
+        "created_by": 1
+      },
+      "unique": false
+    },
+    {
+      "key": {
+        "item_status": 1
+      },
+      "unique": false
+    }
+  ],
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "title": "InventoryItem",
+      "required": [
+        "inventory_id",
+        "item_name",
+        "category",
+        "quantity_on_hand",
+        "unit_of_measure",
+        "reorder_level",
+        "item_status",
+        "created_by",
+        "created_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "bsonType": "objectId"
+        },
+        "inventory_id": {
+          "bsonType": "int",
+          "minimum": 1,
+          "description": "PK, AUTO_INCREMENT. Unique ID for each inventory item"
+        },
+        "item_name": {
+          "bsonType": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Name of the supply item"
+        },
+        "category": {
+          "bsonType": "string",
+          "maxLength": 50,
+          "description": "Item category, such as Detergent, Conditioner, or Packaging"
+        },
+        "quantity_on_hand": {
+          "bsonType": "decimal",
+          "minimum": 0,
+          "maximum": 99999999.99,
+          "description": "Current stock quantity, DEFAULT 0.00, CHECK >= 0"
+        },
+        "unit_of_measure": {
+          "bsonType": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "description": "Unit used to track stock, such as liters, kilograms, or pieces"
+        },
+        "reorder_level": {
+          "bsonType": "decimal",
+          "minimum": 0,
+          "maximum": 99999999.99,
+          "description": "Stock threshold for a low-stock alert, DEFAULT 0.00, CHECK >= 0"
+        },
+        "item_status": {
+          "bsonType": "string",
+          "enum": [
+            "Active",
+            "Inactive"
+          ],
+          "maxLength": 30,
+          "description": "DEFAULT Active"
+        },
+        "created_by": {
+          "bsonType": "int",
+          "minimum": 1,
+          "description": "FK -> users.user_id"
+        },
+        "created_at": {
+          "bsonType": "date",
+          "description": "Date and time the inventory item was created, DEFAULT CURRENT_TIMESTAMP"
+        }
+      }
+    }
+  }
+}

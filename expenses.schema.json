@@ -1,0 +1,108 @@
+{
+  "collection": "expenses",
+  "specTable": "EXPENSES TABLE",
+  "primaryKeyField": "expense_id",
+  "foreignKeys": {
+    "recorded_by": "users.user_id"
+  },
+  "defaultsAppliedByApp": {
+    "reference_number": null,
+    "created_at": "now"
+  },
+  "specNotes": [
+    "description is VARCHAR(25) in the spec; kept as written (pending confirmation).",
+    "expense_date is a DATE: store as BSON Date at 00:00:00 UTC.",
+    "payment_method is free text in the spec (cash, GCash, PDCs are examples)."
+  ],
+  "indexes": [
+    {
+      "key": {
+        "expense_id": 1
+      },
+      "unique": true
+    },
+    {
+      "key": {
+        "recorded_by": 1
+      },
+      "unique": false
+    },
+    {
+      "key": {
+        "expense_date": 1
+      },
+      "unique": false
+    }
+  ],
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "title": "Expense",
+      "required": [
+        "expense_id",
+        "recorded_by",
+        "expense_date",
+        "category",
+        "description",
+        "amount",
+        "payment_method",
+        "created_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "bsonType": "objectId"
+        },
+        "expense_id": {
+          "bsonType": "int",
+          "minimum": 1,
+          "description": "PK, AUTO_INCREMENT. Unique ID for each expense"
+        },
+        "recorded_by": {
+          "bsonType": "int",
+          "minimum": 1,
+          "description": "FK -> users.user_id"
+        },
+        "expense_date": {
+          "bsonType": "date",
+          "description": "Date expense was incurred"
+        },
+        "category": {
+          "bsonType": "string",
+          "maxLength": 50,
+          "description": "Expense category, such as Utilities, Supplies, Rent, or Maintenance"
+        },
+        "description": {
+          "bsonType": "string",
+          "minLength": 1,
+          "maxLength": 25,
+          "description": "Details of the expense"
+        },
+        "amount": {
+          "bsonType": "decimal",
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 99999999.99,
+          "description": "Total expense amount, CHECK amount > 0"
+        },
+        "payment_method": {
+          "bsonType": "string",
+          "maxLength": 30,
+          "description": "Payment method (cash, GCash, PDCs)"
+        },
+        "reference_number": {
+          "bsonType": [
+            "string",
+            "null"
+          ],
+          "maxLength": 500,
+          "description": "Reference number of transaction/receipt"
+        },
+        "created_at": {
+          "bsonType": "date",
+          "description": "Date and time expense was recorded, DEFAULT CURRENT_TIMESTAMP"
+        }
+      }
+    }
+  }
+}

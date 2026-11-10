@@ -1,0 +1,35 @@
+[
+  {
+    "inventory_id": 1,
+    "item_name": "Liquid Detergent",
+    "category": "Detergent",
+    "quantity_on_hand": {"$numberDecimal": "25.00"},
+    "unit_of_measure": "liters",
+    "reorder_level": {"$numberDecimal": "10.00"},
+    "item_status": "Active",
+    "created_by": 1,
+    "created_at": {"$date": "2026-11-01T08:00:00.000Z"}
+  },
+  {
+    "inventory_id": 2,
+    "item_name": "Fabric Conditioner",
+    "category": "Conditioner",
+    "quantity_on_hand": {"$numberDecimal": "18.50"},
+    "unit_of_measure": "liters",
+    "reorder_level": {"$numberDecimal": "8.00"},
+    "item_status": "Active",
+    "created_by": 1,
+    "created_at": {"$date": "2026-11-01T08:05:00.000Z"}
+  },
+  {
+    "inventory_id": 3,
+    "item_name": "Plastic Packaging Bags",
+    "category": "Packaging",
+    "quantity_on_hand": {"$numberDecimal": "80.00"},
+    "unit_of_measure": "pieces",
+    "reorder_level": {"$numberDecimal": "100.00"},
+    "item_status": "Active",
+    "created_by": 2,
+    "created_at": {"$date": "2026-11-01T08:10:00.000Z"}
+  }
+]
