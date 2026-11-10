@@ -1,22 +1,5 @@
 {
   "collection": "batches",
-  "specTable": "BATCHES TABLE",
-  "primaryKeyField": "batch_id",
-  "foreignKeys": {
-    "created_by": "users.user_id"
-  },
-  "defaultsAppliedByApp": {
-    "machine_label": null,
-    "batch_status": "Pending",
-    "started_at": null,
-    "completed_at": null,
-    "created_at": "now"
-  },
-  "specNotes": [
-    "Spec header says 'batches_id' but the field table says batch_id; batch_id used.",
-    "process_type is free text in the spec (Washing, Drying are examples).",
-    "Batch-to-order links live in the separate Batch_Orders table, not in this collection."
-  ],
   "indexes": [
     {
       "key": {
@@ -43,6 +26,13 @@
       "unique": false
     }
   ],
+  "defaults": {
+    "machine_label": null,
+    "batch_status": "Pending",
+    "started_at": null,
+    "completed_at": null,
+    "created_at": "now"
+  },
   "validator": {
     "$jsonSchema": {
       "bsonType": "object",
@@ -63,18 +53,18 @@
         "batch_id": {
           "bsonType": "int",
           "minimum": 1,
-          "description": "PK, AUTO_INCREMENT. Unique ID for each laundry batch"
+          "description": "Unique ID for each laundry batch"
         },
         "batch_number": {
           "bsonType": "string",
           "minLength": 1,
           "maxLength": 30,
-          "description": "UNIQUE. Batch tracking number displayed to staff"
+          "description": "Batch tracking number displayed to staff"
         },
         "created_by": {
           "bsonType": "int",
           "minimum": 1,
-          "description": "FK -> users.user_id"
+          "description": "References users.user_id"
         },
         "process_type": {
           "bsonType": "string",
@@ -99,7 +89,7 @@
             "Cancelled"
           ],
           "maxLength": 30,
-          "description": "DEFAULT Pending"
+          "description": "Status: Pending, In Progress, Completed, or Cancelled"
         },
         "started_at": {
           "bsonType": [
@@ -117,7 +107,7 @@
         },
         "created_at": {
           "bsonType": "date",
-          "description": "Date and time the batch was created, DEFAULT CURRENT_TIMESTAMP"
+          "description": "Date and time the batch was created"
         }
       }
     }

@@ -1,21 +1,5 @@
 {
   "collection": "inventory",
-  "specTable": "INVENTORY TABLE",
-  "primaryKeyField": "inventory_id",
-  "foreignKeys": {
-    "created_by": "users.user_id"
-  },
-  "defaultsAppliedByApp": {
-    "quantity_on_hand": "0.00",
-    "reorder_level": "0.00",
-    "item_status": "Active",
-    "created_at": "now"
-  },
-  "specNotes": [
-    "Spec field name 'quantity _on_hand' (stray space) read as quantity_on_hand.",
-    "Decimal defaults are Decimal128 0.00 (written as a string here).",
-    "low stock = quantity_on_hand <= reorder_level (design convention, not defined in the spec)."
-  ],
   "indexes": [
     {
       "key": {
@@ -36,6 +20,12 @@
       "unique": false
     }
   ],
+  "defaults": {
+    "quantity_on_hand": "0.00",
+    "reorder_level": "0.00",
+    "item_status": "Active",
+    "created_at": "now"
+  },
   "validator": {
     "$jsonSchema": {
       "bsonType": "object",
@@ -59,7 +49,7 @@
         "inventory_id": {
           "bsonType": "int",
           "minimum": 1,
-          "description": "PK, AUTO_INCREMENT. Unique ID for each inventory item"
+          "description": "Unique ID for each inventory item"
         },
         "item_name": {
           "bsonType": "string",
@@ -76,7 +66,7 @@
           "bsonType": "decimal",
           "minimum": 0,
           "maximum": 99999999.99,
-          "description": "Current stock quantity, DEFAULT 0.00, CHECK >= 0"
+          "description": "Current stock quantity"
         },
         "unit_of_measure": {
           "bsonType": "string",
@@ -88,7 +78,7 @@
           "bsonType": "decimal",
           "minimum": 0,
           "maximum": 99999999.99,
-          "description": "Stock threshold for a low-stock alert, DEFAULT 0.00, CHECK >= 0"
+          "description": "Stock threshold for a low-stock alert"
         },
         "item_status": {
           "bsonType": "string",
@@ -97,16 +87,16 @@
             "Inactive"
           ],
           "maxLength": 30,
-          "description": "DEFAULT Active"
+          "description": "Status: Active or Inactive"
         },
         "created_by": {
           "bsonType": "int",
           "minimum": 1,
-          "description": "FK -> users.user_id"
+          "description": "References users.user_id"
         },
         "created_at": {
           "bsonType": "date",
-          "description": "Date and time the inventory item was created, DEFAULT CURRENT_TIMESTAMP"
+          "description": "Date and time the inventory was created"
         }
       }
     }

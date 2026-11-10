@@ -1,19 +1,5 @@
 {
   "collection": "expenses",
-  "specTable": "EXPENSES TABLE",
-  "primaryKeyField": "expense_id",
-  "foreignKeys": {
-    "recorded_by": "users.user_id"
-  },
-  "defaultsAppliedByApp": {
-    "reference_number": null,
-    "created_at": "now"
-  },
-  "specNotes": [
-    "description is VARCHAR(25) in the spec; kept as written (pending confirmation).",
-    "expense_date is a DATE: store as BSON Date at 00:00:00 UTC.",
-    "payment_method is free text in the spec (cash, GCash, PDCs are examples)."
-  ],
   "indexes": [
     {
       "key": {
@@ -34,6 +20,10 @@
       "unique": false
     }
   ],
+  "defaults": {
+    "reference_number": null,
+    "created_at": "now"
+  },
   "validator": {
     "$jsonSchema": {
       "bsonType": "object",
@@ -56,12 +46,12 @@
         "expense_id": {
           "bsonType": "int",
           "minimum": 1,
-          "description": "PK, AUTO_INCREMENT. Unique ID for each expense"
+          "description": "Unique ID for each expense"
         },
         "recorded_by": {
           "bsonType": "int",
           "minimum": 1,
-          "description": "FK -> users.user_id"
+          "description": "References users.user_id"
         },
         "expense_date": {
           "bsonType": "date",
@@ -83,7 +73,7 @@
           "minimum": 0,
           "exclusiveMinimum": true,
           "maximum": 99999999.99,
-          "description": "Total expense amount, CHECK amount > 0"
+          "description": "Total expense amount"
         },
         "payment_method": {
           "bsonType": "string",
@@ -100,7 +90,7 @@
         },
         "created_at": {
           "bsonType": "date",
-          "description": "Date and time expense was recorded, DEFAULT CURRENT_TIMESTAMP"
+          "description": "Date and time expense was recorded"
         }
       }
     }
