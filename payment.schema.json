@@ -1,0 +1,109 @@
+{
+  "collection": "payments",
+  "indexes": [
+    {
+      "key": {
+        "payment_id": 1
+      },
+      "unique": true
+    },
+    {
+      "key": {
+        "order_id": 1
+      },
+      "unique": true
+    },
+    {
+      "key": {
+        "transaction_id": 1
+      },
+      "unique": true
+    }
+  ],
+  "defaults": {
+    "currency": "USD",
+    "status": "pending",
+    "paid_at": "now"
+  },
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "title": "Payment",
+      "required": [
+        "payment_id",
+        "order_id",
+        "user_id",
+        "amount",
+        "currency",
+        "payment_method",
+        "transaction_id",
+        "status",
+        "paid_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "bsonType": "objectId"
+        },
+        "payment_id": {
+          "bsonType": "int",
+          "minimum": 1,
+          "description": "Unique ID for each payment record"
+        },
+        "order_id": {
+          "bsonType": "int",
+          "minimum": 1,
+          "description": "References orders.order_id"
+        },
+        "user_id": {
+          "bsonType": "int",
+          "minimum": 1,
+          "description": "References users.user_id"
+        },
+        "amount": {
+          "bsonType": "decimal",
+          "minimum": 0,
+          "maximum": 99999999.99,
+          "description": "Payment amount processed"
+        },
+        "currency": {
+          "bsonType": "string",
+          "maxLength": 3,
+          "description": "Currency code such as USD"
+        },
+        "payment_method": {
+          "bsonType": "string",
+          "enum": [
+            "credit_card",
+            "paypal",
+            "stripe",
+            "bank_transfer"
+          ],
+          "maxLength": 30,
+          "description": "Method used for payment"
+        },
+        "transaction_id": {
+          "bsonType": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "External payment gateway transaction reference ID"
+        },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "pending",
+            "completed",
+            "failed",
+            "refunded"
+          ],
+          "maxLength": 30,
+          "description": "Payment status"
+        },
+        "paid_at": {
+          "bsonType": "date",
+          "description": "Timestamp of successful payment"
+        }
+      }
+    }
+  }
+}
