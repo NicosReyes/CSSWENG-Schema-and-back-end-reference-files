@@ -1,0 +1,107 @@
+{
+  "collection": "orders",
+  "indexes": [
+    {
+      "key": {
+        "order_id": 1
+      },
+      "unique": true
+    },
+    {
+      "key": {
+        "user_id": 1
+      },
+      "unique": false
+    },
+    {
+      "key": {
+        "status": 1
+      },
+      "unique": false
+    }
+  ],
+  "defaults": {
+    "status": "pending",
+    "created_at": "now"
+  },
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "title": "Order",
+      "required": [
+        "order_id",
+        "user_id",
+        "items",
+        "total_amount",
+        "status",
+        "created_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "bsonType": "objectId"
+        },
+        "order_id": {
+          "bsonType": "int",
+          "minimum": 1,
+          "description": "Unique ID for each order"
+        },
+        "user_id": {
+          "bsonType": "int",
+          "minimum": 1,
+          "description": "References users.user_id"
+        },
+        "items": {
+          "bsonType": "array",
+          "minItems": 1,
+          "description": "List of inventory items purchased in the order",
+          "items": {
+            "bsonType": "object",
+            "required": [
+              "inventory_id",
+              "quantity",
+              "price"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "inventory_id": {
+                "bsonType": "int",
+                "minimum": 1
+              },
+              "quantity": {
+                "bsonType": "decimal",
+                "minimum": 0.01
+              },
+              "price": {
+                "bsonType": "decimal",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "total_amount": {
+          "bsonType": "decimal",
+          "minimum": 0,
+          "maximum": 99999999.99,
+          "description": "Total cost of the order"
+        },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "pending",
+            "processing",
+            "shipped",
+            "delivered",
+            "cancelled"
+          ],
+          "maxLength": 30,
+          "description": "Fulfillment status"
+        },
+        "created_at": {
+          "bsonType": "date",
+          "description": "Date and time the order was placed"
+        }
+      }
+    }
+  }
+}
