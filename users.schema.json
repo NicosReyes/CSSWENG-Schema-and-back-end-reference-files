@@ -1,0 +1,83 @@
+{
+  "collection": "users",
+  "indexes": [
+    {
+      "key": {
+        "user_id": 1
+      },
+      "unique": true
+    },
+    {
+      "key": {
+        "email": 1
+      },
+      "unique": true
+    },
+    {
+      "key": {
+        "role": 1
+      },
+      "unique": false
+    }
+  ],
+  "defaults": {
+    "role": "customer",
+    "created_at": "now"
+  },
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "title": "User",
+      "required": [
+        "user_id",
+        "name",
+        "email",
+        "password",
+        "role",
+        "created_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "bsonType": "objectId"
+        },
+        "user_id": {
+          "bsonType": "int",
+          "minimum": 1,
+          "description": "Unique ID for each user"
+        },
+        "name": {
+          "bsonType": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Full name of the user"
+        },
+        "email": {
+          "bsonType": "string",
+          "minLength": 5,
+          "maxLength": 255,
+          "description": "User email address"
+        },
+        "password": {
+          "bsonType": "string",
+          "minLength": 6,
+          "description": "Hashed password string"
+        },
+        "role": {
+          "bsonType": "string",
+          "enum": [
+            "customer",
+            "admin",
+            "staff"
+          ],
+          "maxLength": 30,
+          "description": "User role"
+        },
+        "created_at": {
+          "bsonType": "date",
+          "description": "Date and time the user account was created"
+        }
+      }
+    }
+  }
+}
